@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ghibli_app_flutter/src/pages/home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 

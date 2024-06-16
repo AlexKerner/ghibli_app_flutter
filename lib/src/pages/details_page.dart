@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:ghibli_app_flutter/src/models/movies_model.dart';
 import 'package:ghibli_app_flutter/src/utils/hour_convert.utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DetailsPage extends StatelessWidget {
   final Movies movie;
@@ -32,28 +33,22 @@ class DetailsPage extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Image.network(
-                      movie.movieBanner!,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      opacity: const AlwaysStoppedAnimation(0.9),
-                      loadingBuilder: (_, child, progress) {
-                        if (progress == null) return child;
-                        return Center(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            child: SvgPicture.asset(
-                              'assets/studio-ghibli-logo.svg',
-                              semanticsLabel: 'My SVG Image',
-                              // ignore: deprecated_member_use
-                              color: Colors.white,
-                              width: 150,
-                              height: 150,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    CachedNetworkImage(
+                        imageUrl: movie.movieBanner!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                child: SvgPicture.asset(
+                                  'assets/studio-ghibli-logo.svg',
+                                  semanticsLabel: 'My SVG Image',
+                                  color: Colors.white,
+                                  width: 150,
+                                  height: 150,
+                                ),
+                              ),
+                            )),
                     Container(
                       height: 420,
                       decoration: BoxDecoration(
@@ -169,22 +164,19 @@ class DetailsPage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
-                        child: Image.network(
-                          movie.image!,
-                          loadingBuilder: (_, child, progress) {
-                            if (progress == null) return child;
-                            return Center(
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: SvgPicture.asset(
-                                  'assets/loading-totoro.svg',
-                                  semanticsLabel: 'My SVG Image',
-                                  width: 100,
-                                  height: 100,
-                                ),
+                        child: CachedNetworkImage(
+                          imageUrl: movie.image!,
+                          placeholder: (context, url) => Center(
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              child: SvgPicture.asset(
+                                'assets/loading-totoro.svg',
+                                semanticsLabel: 'My SVG Image',
+                                width: 100,
+                                height: 100,
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       ),
                     ),

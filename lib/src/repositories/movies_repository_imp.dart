@@ -1,4 +1,3 @@
-
 import 'package:ghibli_app_flutter/src/models/movies_model.dart';
 import 'package:ghibli_app_flutter/src/repositories/movies_repository.dart';
 import 'package:ghibli_app_flutter/src/services/dio_service.dart';
@@ -12,10 +11,8 @@ class MoviesRepositoryImp implements MoviesRepository {
   @override
   Future<List<Movies>> getMovies() async {
     var response = await _dioService.getDio().get(API.REQUEST_MOVIE_LIST);
-    var result = (response.data as List).map((e) => Movies.fromJson(e)).toList();
-    return result;
-
-    
+    List<dynamic> data = response.data;
+    List<Movies> moviesList = data.map((movieJson) => Movies.fromJson(movieJson)).toList();
+    return moviesList;
   }
-  
 }

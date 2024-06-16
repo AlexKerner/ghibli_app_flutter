@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:ghibli_app_flutter/src/controllers/movie_controller.dart';
+import 'package:ghibli_app_flutter/src/decorators/movies_cache_repository_decorator.dart';
 import 'package:ghibli_app_flutter/src/models/movies_model.dart';
 import 'package:ghibli_app_flutter/src/repositories/movies_repository_imp.dart';
 import 'package:ghibli_app_flutter/src/services/dio_service_imp.dart';
 import 'package:ghibli_app_flutter/src/widgets/card_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,8 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final MovieController _controller =
-      MovieController(MoviesRepositoryImp(DioServiceImp()));
+  final MovieController _controller = MovieController(
+      MoviesCacheRepositoryDecorator(MoviesRepositoryImp(DioServiceImp())));
 
   @override
   Widget build(BuildContext context) {
@@ -78,24 +79,22 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(8),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, // Número de colunas
-                            crossAxisSpacing:
-                                8, // Espaço horizontal entre os cards
-                            mainAxisSpacing:
-                                8, // Espaço vertical entre os cards
-                            childAspectRatio:
-                                0.53, // Ajuste da proporção do card
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 0.53,
                           ),
                           itemCount: movies.length,
                           itemBuilder: (_, index) {
-                            return CardWidget(movie: movies[index]);
+                            final movie = movies[index];
+                            CachedNetworkImage(imageUrl: movie.movieBanner!);
+                            return CardWidget(movie: movie);
                           },
                         )
                       : Center(
-                          child: SvgPicture.network(
-                            'https://upload.wikimedia.org/wikipedia/sco/c/ca/Studio_Ghibli_logo.svg',
+                          child: SvgPicture.asset(
+                            'assets/studio-ghibli-logo.svg',
                             semanticsLabel: 'My SVG Image',
-                            // ignore: deprecated_member_use
                             color: Colors.white,
                             width: 150,
                             height: 150,

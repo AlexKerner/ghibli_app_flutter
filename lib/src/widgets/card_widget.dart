@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:ghibli_app_flutter/src/models/movies_model.dart';
 import 'package:ghibli_app_flutter/src/pages/details_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CardWidget extends StatelessWidget {
   final Movies movie;
@@ -32,22 +33,19 @@ class CardWidget extends StatelessWidget {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    child: Image.network(
-                      movie.image!,
-                      loadingBuilder: (_, child, progress) {
-                        if (progress == null) return child;
-                        return Center(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            child: SvgPicture.asset(
-                              'assets/loading-totoro.svg',
-                              semanticsLabel: 'My SVG Image',
-                              width: 100,
-                              height: 100,
-                            ),
+                    child: CachedNetworkImage(
+                      imageUrl: movie.image!,
+                      placeholder: (context, url) => Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          child: SvgPicture.asset(
+                            'assets/loading-totoro.svg',
+                            semanticsLabel: 'My SVG Image',
+                            width: 100,
+                            height: 100,
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ),
                 ),

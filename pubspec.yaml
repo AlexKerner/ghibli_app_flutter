@@ -7,11 +7,13 @@ environment:
   sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
+  cached_network_image: ^3.3.1
   dio: ^5.4.3+1
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.10+1
   from_css_color: ^2.0.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
