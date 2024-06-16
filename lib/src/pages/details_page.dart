@@ -43,6 +43,7 @@ class DetailsPage extends StatelessWidget {
                                 child: SvgPicture.asset(
                                   'assets/studio-ghibli-logo.svg',
                                   semanticsLabel: 'My SVG Image',
+                                  // ignore: deprecated_member_use
                                   color: Colors.white,
                                   width: 150,
                                   height: 150,

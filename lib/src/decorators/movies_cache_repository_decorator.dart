@@ -23,8 +23,6 @@ class MoviesCacheRepositoryDecorator extends MoviesRepositoryDecorator {
     String jsonMovies =
         jsonEncode(movies.map((movie) => movie.toJson()).toList());
     await prefs.setString('movies_cache', jsonMovies);
-    print(
-        'Movies saved in cache: ${movies.map((movie) => movie.toJson()).toList()}');
   }
 
   Future<List<Movies>> _getInCache() async {
@@ -34,8 +32,6 @@ class MoviesCacheRepositoryDecorator extends MoviesRepositoryDecorator {
       List<dynamic> jsonList = jsonDecode(moviesJsonString);
       List<Movies> movies =
           jsonList.map((json) => Movies.fromJson(json)).toList();
-      print(
-          'Movies retrieved from cache: ${movies.map((movie) => movie.toJson()).toList()}');
       return movies;
     } else {
       return [];
